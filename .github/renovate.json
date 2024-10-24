@@ -1,0 +1,34 @@
+{
+	"extends": [
+		"config:best-practices",
+		":semanticCommits",
+		":timezone(Pacific/Auckland)",
+		"npm:unpublishSafe",
+		"group:allDigest",
+		"group:allNonMajor",
+		"customManagers:biomeVersions"
+	],
+	"hostRules": [
+		{
+			"hostType": "npm",
+			"matchHost": "https://npm.pkg.github.com/",
+			"token": "{{ secrets.READ_PACKAGES }}"
+		}
+	],
+	"npmrc": "@wattmaven:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=${NPM_TOKEN}",
+	"timezone": "Pacific/Auckland",
+	"schedule": ["before 5am on Sunday"],
+	"lockFileMaintenance": {
+		"enabled": true,
+		"automerge": true
+	},
+	"packageRules": [
+		{
+			"description": "Automatically merge minor and patch updates",
+			"matchUpdateTypes": ["minor", "patch", "digest"],
+			"matchCurrentVersion": "!/^0/",
+			"automerge": true,
+			"automergeType": "branch"
+		}
+	]
+}
